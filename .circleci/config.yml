@@ -11,11 +11,15 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - run: echo hello
-  print_world:
+  print_env:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/base:2020.01
     steps:
-      - run: echo world
+      - checkout
+      - run:
+          name: "echo an env var that is part of our project"
+          command: |
+            echo $NAME
 workflows:
   # Name the workflow "welcome"
   welcome:
@@ -23,7 +27,5 @@ workflows:
     jobs:
       - welcome/run
       - print_hello
-      - print_world:
-          requires:
-            - print_hello
+      - print_env
 
